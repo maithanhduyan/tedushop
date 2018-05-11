@@ -61,8 +61,6 @@
     <Compile Include="Models\PostCategory.cs" />
     <Compile Include="Models\PostTag.cs" />
     <Compile Include="Models\ProductCategory.cs" />
-    <Compile Include="Abtract\Seoable.cs" />
-    <Compile Include="Abtract\Switchable.cs" />
     <Compile Include="Models\Footer.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuGroup.cs" />
