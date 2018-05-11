@@ -7,7 +7,7 @@ namespace TeduShop.Model.Models
     public class SupportOnline
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { set; get; }
 
         [Required]
@@ -32,8 +32,7 @@ namespace TeduShop.Model.Models
         [MaxLength(50)]
         public string Facebook { set; get; }
 
-        [MaxLength(50)]
-        public string Status { set; get; }
+        public bool Status { set; get; }
 
         public int? DisplayOrder { set; get; }
     }

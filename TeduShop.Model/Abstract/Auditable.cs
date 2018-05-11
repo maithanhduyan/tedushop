@@ -1,19 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TeduShop.Model.Abtract
+namespace TeduShop.Model.Abstract
 {
-    public abstract class Auditable : IAuditable, ISeoable, ISwitchable
+    public abstract class Auditable : IAuditable
     {
-        public DateTime? CreateDate { set; get; }
+        public DateTime? CreatedDate { set; get; }
 
         [MaxLength(256)]
-        public string CreateBy { set; get; }
+        public string CreatedBy { set; get; }
 
-        public DateTime? UpdateDate { set; get; }
+        public DateTime? UpdatedDate { set; get; }
 
         [MaxLength(256)]
-        public string UpdateBy { set; get; }
+        public string UpdatedBy { set; get; }
 
         [MaxLength(256)]
         public string MetaKeyword { set; get; }

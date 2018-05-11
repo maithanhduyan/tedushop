@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
-using TeduShop.Model.Abtract;
+using TeduShop.Model.Abstract;
 
 namespace TeduShop.Model.Models
 {
@@ -10,27 +10,33 @@ namespace TeduShop.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string ID { set; get; }
+        public int ID { set; get; }
 
         [Required]
+        [MaxLength(256)]
         public string Name { set; get; }
 
         [Required]
+        [MaxLength(256)]
         public string Alias { set; get; }
 
+        [Required]
         public int CategoryID { set; get; }
 
-        public string Image { set; get; }
+        [MaxLength(256)]
+        public string ThumbnailImage { set; get; }
 
-        public XElement MoreImages { set; get; }
-
-        [Required]
         public decimal Price { set; get; }
+
+        public decimal OriginalPrice { set; get; }
 
         public decimal? PromotionPrice { set; get; }
 
+        public bool IncludedVAT { get; set; }
+
         public int? Warranty { set; get; }
 
+        [MaxLength(500)]
         public string Description { set; get; }
 
         public string Content { set; get; }
@@ -41,7 +47,11 @@ namespace TeduShop.Model.Models
 
         public int? ViewCount { set; get; }
 
+        public string Tags { set; get; }
+
         [ForeignKey("CategoryID")]
         public virtual ProductCategory ProductCategory { set; get; }
+
+        public virtual ICollection<ProductTag> ProductTags { set; get; }
     }
 }
