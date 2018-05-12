@@ -23,9 +23,11 @@ namespace TeduShop.Data.Infrastructure
             {
                 DisposeCore();
             }
+
             isDisposed = true;
         }
 
+        // Ovveride this to dispose custom objects
         protected virtual void DisposeCore()
         {
         }
