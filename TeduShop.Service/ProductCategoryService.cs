@@ -27,14 +27,24 @@ namespace TeduShop.Service
 
     public class ProductCategoryService : IProductCategoryService
     {
+        #region Properties
+
         private IProductCategoryRepository _productCategoryRepository;
         private IUnitOfWork _unitOfWork;
+
+        #endregion Properties
+
+        #region Constructor
 
         public ProductCategoryService(IProductCategoryRepository ProductCategoryRepository, IUnitOfWork unitOfWork)
         {
             this._productCategoryRepository = ProductCategoryRepository;
             this._unitOfWork = unitOfWork;
         }
+
+        #endregion Constructor
+
+        #region Method
 
         public ProductCategory Add(ProductCategory ProductCategory)
         {
@@ -79,5 +89,7 @@ namespace TeduShop.Service
         {
             _productCategoryRepository.Update(ProductCategory);
         }
+
+        #endregion Method
     }
 }

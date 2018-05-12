@@ -53,11 +53,11 @@ namespace TeduShop.UnitTest.ServiceTest
             category.Alias = "test";
             category.Status = true;
 
-            _mockRepository.Setup(m => m.Add(category)).Returns((PostCategory p) =>
-            {
-                p.ID = 1;
-                return p;
-            });
+            var temp = _mockRepository.Setup(m => m.Add(category)).Returns((PostCategory p) =>
+             {
+                 p.ID = 1;
+                 return p;
+             });
 
             var result = _categoryService.Add(category);
 

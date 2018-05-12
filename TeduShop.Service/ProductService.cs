@@ -52,11 +52,16 @@ namespace TeduShop.Service
 
     public class ProductService : IProductService
     {
+        #region Properties
+
         private IProductRepository _productRepository;
         private ITagRepository _tagRepository;
         private IProductTagRepository _productTagRepository;
-
         private IUnitOfWork _unitOfWork;
+
+        #endregion Properties
+
+        #region Contructor
 
         public ProductService(IProductRepository productRepository, IProductTagRepository productTagRepository,
             ITagRepository _tagRepository, IUnitOfWork unitOfWork)
@@ -66,6 +71,10 @@ namespace TeduShop.Service
             this._tagRepository = _tagRepository;
             this._unitOfWork = unitOfWork;
         }
+
+        #endregion Contructor
+
+        #region Method
 
         public Product Add(Product Product)
         {
@@ -279,5 +288,7 @@ namespace TeduShop.Service
         {
             return _tagRepository.GetMulti(x => x.Type == CommonConstants.ProductTag && searchText.Contains(x.Name));
         }
+
+        #endregion Method
     }
 }

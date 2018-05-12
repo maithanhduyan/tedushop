@@ -9,22 +9,22 @@ namespace TeduShop.UnitTest.RepositoryTest
     [TestClass]
     public class PostCategoryRepositoryTest
     {
-        private IDbFactory dbFactory;
-        private IPostCategoryRepository objRepository;
-        private IUnitOfWork unitOfWork;
+        private IDbFactory _dbFactory;
+        private IPostCategoryRepository _objRepository;
+        private IUnitOfWork _unitOfWork;
 
         [TestInitialize]
         public void Initialize()
         {
-            dbFactory = new DbFactory();
-            objRepository = new PostCategoryRepository(dbFactory);
-            unitOfWork = new UnitOfWork(dbFactory);
+            _dbFactory = new DbFactory();
+            _objRepository = new PostCategoryRepository(_dbFactory);
+            _unitOfWork = new UnitOfWork(_dbFactory);
         }
 
         [TestMethod]
         public void PostCategory_Repository_GetAll()
         {
-            var list = objRepository.GetAll().ToList();
+            var list = _objRepository.GetAll().ToList();
             Assert.AreEqual(3, list.Count);
         }
 
@@ -36,8 +36,8 @@ namespace TeduShop.UnitTest.RepositoryTest
             category.Alias = "Test-category";
             category.Status = true;
 
-            var result = objRepository.Add(category);
-            unitOfWork.Commit();
+            var result = _objRepository.Add(category);
+            _unitOfWork.Commit();
 
             Assert.IsNotNull(result);
             Assert.AreEqual(3, result.ID);

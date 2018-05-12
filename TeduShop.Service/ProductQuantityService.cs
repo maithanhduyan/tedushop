@@ -25,10 +25,16 @@ namespace TeduShop.Service
 
     public class ProductQuantityService : IProductQuantityService
     {
+        #region Properties
+
         private IProductQuantityRepository _productQuantityRepository;
         private IColorRepository _colorRepository;
         private ISizeRepository _sizeRepository;
         private IUnitOfWork _unitOfWork;
+
+        #endregion Properties
+
+        #region Contructor
 
         public ProductQuantityService(IProductQuantityRepository productQuantityRepository,
             IColorRepository colorRepository, ISizeRepository sizeRepository,
@@ -39,6 +45,10 @@ namespace TeduShop.Service
             _colorRepository = colorRepository;
             this._unitOfWork = unitOfWork;
         }
+
+        #endregion Contructor
+
+        #region Method
 
         public void Add(ProductQuantity productImage)
         {
@@ -80,5 +90,7 @@ namespace TeduShop.Service
         {
             _unitOfWork.Commit();
         }
+
+        #endregion Method
     }
 }

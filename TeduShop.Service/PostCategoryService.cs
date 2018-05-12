@@ -24,14 +24,24 @@ namespace TeduShop.Service
 
     public class PostCategoryService : IPostCategoryService
     {
+        #region Properties
+
         private IPostCategoryRepository _postCategoryRepository;
         private IUnitOfWork _unitOfWork;
+
+        #endregion Properties
+
+        #region Constructor
 
         public PostCategoryService(IPostCategoryRepository postCategoryRepository, IUnitOfWork unitOfWork)
         {
             this._postCategoryRepository = postCategoryRepository;
             this._unitOfWork = unitOfWork;
         }
+
+        #endregion Constructor
+
+        #region Method
 
         public PostCategory Add(PostCategory postCategory)
         {
@@ -67,5 +77,7 @@ namespace TeduShop.Service
         {
             _postCategoryRepository.Update(postCategory);
         }
+
+        #endregion Method
     }
 }
