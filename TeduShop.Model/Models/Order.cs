@@ -32,15 +32,21 @@ namespace TeduShop.Model.Models
         [MaxLength(256)]
         public string CustomerMessage { set; get; }
 
-        [Required]
         [MaxLength(256)]
         public string PaymentMethod { set; get; }
 
-        public DateTime? CreateDate { set; get; }
-        public string CreateBy { set; get; }
+        public DateTime? CreatedDate { set; get; }
+        public string CreatedBy { set; get; }
         public string PaymentStatus { set; get; }
         public bool Status { set; get; }
 
-        public virtual IEnumerable<OrderDetail> OrderDetails { set; get; }
+        [StringLength(128)]
+        [Column(TypeName = "nvarchar")]
+        public string CustomerId { set; get; }
+
+        [ForeignKey("CustomerId")]
+        public virtual AppUser User { set; get; }
+
+        public virtual ICollection<OrderDetail> OrderDetails { set; get; }
     }
 }

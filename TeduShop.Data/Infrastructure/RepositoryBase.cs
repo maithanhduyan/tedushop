@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace TeduShop.Data.Infrastructure
 {
-    public abstract class RepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T> : IRepository<T> where T : class
     {
         #region Properties
 
@@ -34,9 +34,9 @@ namespace TeduShop.Data.Infrastructure
 
         #region Implementation
 
-        public virtual void Add(T entity)
+        public virtual T Add(T entity)
         {
-            dbSet.Add(entity);
+            return dbSet.Add(entity);
         }
 
         public virtual void Update(T entity)
@@ -45,9 +45,15 @@ namespace TeduShop.Data.Infrastructure
             dataContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public virtual void Delete(T entity)
+        public virtual T Delete(T entity)
         {
-            dbSet.Remove(entity);
+            return dbSet.Remove(entity);
+        }
+
+        public virtual T Delete(int id)
+        {
+            var entity = dbSet.Find(id);
+            return dbSet.Remove(entity);
         }
 
         public virtual void DeleteMulti(Expression<Func<T, bool>> where)
@@ -72,9 +78,9 @@ namespace TeduShop.Data.Infrastructure
             return dbSet.Count(where);
         }
 
-        public IQueryable<T> GetAll(string[] includes = null)
+        public IEnumerable<T> GetAll(string[] includes = null)
         {
-            //HANDLE INCLUDES FOR ASSOCIATED OBJECT IF APPLICABLE
+            //HANDLE INCLUDES FOR ASSOCIATED OBJECTS IF APPLICABLE
             if (includes != null && includes.Count() > 0)
             {
                 var query = dataContext.Set<T>().Include(includes.First());
@@ -82,36 +88,46 @@ namespace TeduShop.Data.Infrastructure
                     query = query.Include(include);
                 return query.AsQueryable();
             }
+
             return dataContext.Set<T>().AsQueryable();
         }
 
         public T GetSingleByCondition(Expression<Func<T, bool>> expression, string[] includes = null)
         {
-            return GetAll(includes).FirstOrDefault(expression);
-        }
-
-        public virtual IQueryable<T> GetMulti(Expression<Func<T, bool>> predicate, string[] includes = null)
-        {
-            //HANDLE INCLUDES FOR ASSOCIATED OBJECT IF APPLICABLE
             if (includes != null && includes.Count() > 0)
             {
                 var query = dataContext.Set<T>().Include(includes.First());
                 foreach (var include in includes.Skip(1))
                     query = query.Include(include);
-                return query.Where(predicate).AsQueryable<T>();
+                return query.FirstOrDefault(expression);
             }
-            return dataContext.Set<T>().Where(predicate).AsQueryable<T>();
+            return dataContext.Set<T>().FirstOrDefault(expression);
         }
 
-        public virtual IQueryable<T> GetMultiPaging(Expression<Func<T, bool>> predicate, out int total, int index = 0, int size = 20, string[] includes = null)
+        public virtual IEnumerable<T> GetMulti(Expression<Func<T, bool>> predicate, string[] includes = null)
         {
-            int skipCount = index * size;
-            IQueryable<T> _resetSet;
-            //HANDLE INCLUDES FOR ASSICIATED IF APPLICABLE
+            //HANDLE INCLUDES FOR ASSOCIATED OBJECTS IF APPLICABLE
             if (includes != null && includes.Count() > 0)
             {
                 var query = dataContext.Set<T>().Include(includes.First());
-                foreach (var include in includes)
+                foreach (var include in includes.Skip(1))
+                    query = query.Include(include);
+                return query.Where<T>(predicate).AsQueryable<T>();
+            }
+
+            return dataContext.Set<T>().Where<T>(predicate).AsQueryable<T>();
+        }
+
+        public virtual IEnumerable<T> GetMultiPaging(Expression<Func<T, bool>> predicate, out int total, int index = 0, int size = 20, string[] includes = null)
+        {
+            int skipCount = index * size;
+            IQueryable<T> _resetSet;
+
+            //HANDLE INCLUDES FOR ASSOCIATED OBJECTS IF APPLICABLE
+            if (includes != null && includes.Count() > 0)
+            {
+                var query = dataContext.Set<T>().Include(includes.First());
+                foreach (var include in includes.Skip(1))
                     query = query.Include(include);
                 _resetSet = predicate != null ? query.Where<T>(predicate).AsQueryable() : query.AsQueryable();
             }
@@ -123,6 +139,11 @@ namespace TeduShop.Data.Infrastructure
             _resetSet = skipCount == 0 ? _resetSet.Take(size) : _resetSet.Skip(skipCount).Take(size);
             total = _resetSet.Count();
             return _resetSet.AsQueryable();
+        }
+
+        public bool CheckContains(Expression<Func<T, bool>> predicate)
+        {
+            return dataContext.Set<T>().Count<T>(predicate) > 0;
         }
 
         #endregion Implementation
