@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System;
+using System.Net.Mail;
 
 namespace TeduShop.Common
 {
@@ -41,6 +42,7 @@ namespace TeduShop.Common
             }
             catch (SmtpException smex)
             {
+                Console.WriteLine(smex.Message);
                 return false;
             }
         }
