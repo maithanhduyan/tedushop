@@ -3,22 +3,32 @@
 var myApp = angular.module('myModule', []);
 
 myApp.controller("schoolController", schoolController);
-myApp.service("validator", validator);
-schoolController.$inject = ['$scope', 'validator'];
+myApp.service("validatorService", validatorService);
+myApp.directive("teduShopDirective", teduShopDirective);
 
-function schoolController($scope, validator) {
+schoolController.$inject = ['$scope', 'validatorService'];
+
+function schoolController($scope, validatorService) {
     $scope.checkNumber = function () {
-        $scope.message = validator.checkNumber($scope.num);
+        $scope.message = validatorService.checkNumber($scope.num);
     }
     $scope.num = 1;
 }
 
-function validator($window) {
+function validatorService($window) {
     return { checkNumber: checkNumber }
     function checkNumber(input) {
         if (input % 2 == 0) {
             return 'This is even';
         }
-        else return 'This is odd';
+        else
+            return 'This is odd';
+    }
+}
+
+function teduShopDirective() {
+    return {
+        restrict:"E",
+        templateUrl:"/Scripts/spa/teduShopDirective.html" 
     }
 }
