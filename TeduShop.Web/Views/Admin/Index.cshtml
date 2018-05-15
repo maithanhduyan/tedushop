@@ -14,12 +14,9 @@
 </head>
 <body>
     <div ng-controller="schoolController">
-        <div ng-controller="teacherController">
-             {{message}}
-        </div>
-        <div ng-controller="studentController">
-             {{message}}
-        </div>
+        <input type="number" ng-model="num"/> {{num}}
+        <button ng-click="checkNumber()">Check</button>
+        <br />
         {{message}}
     </div> 
 </body>
